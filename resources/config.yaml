@@ -1,0 +1,9 @@
+app_name: "MyApp Service"
+environment: "production"
+version: 2.1
+debug_mode: false    
+
+aimbot: false
+speedhack: false
+wh: false
+lang: "ru"
