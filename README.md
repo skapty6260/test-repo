@@ -46,13 +46,7 @@
 ## 🖼 Изображения
 
 ### Скриншот меню чита
-![Menu](https://via.placeholder.com/800x400/1e1e1e/ff0000?text=Standoff+2+Cheat+Menu)
-
-### Демонстрация работы
-![Demo](https://via.placeholder.com/800x400/1e1e1e/00ff00?text=Aimbot+in+Action)
-
-### Архитектура проекта
-![Architecture](https://via.placeholder.com/800x400/1e1e1e/0088ff?text=Project+Architecture)
+![Menu](/assets/legit.png)
 
 ---
 
