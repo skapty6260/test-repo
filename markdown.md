@@ -107,7 +107,7 @@ etc.
 
 Изображения
 
-![Тут какая-то картинка](/content/img/linus-torvalds-about-nvidia-june-2012.jpg)
+![Тут какая-то картинка](/assets/images.jpg)
 
 Код
 
