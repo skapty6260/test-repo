@@ -192,7 +192,7 @@ sequenceDiagram
 
 <div align="center">
 
-**© 2024 Standoff 2 Cheats Project**
+**© 2026 Standoff 2 Cheats Project**
 
 Made with ❤️ by CheatMaster
 
