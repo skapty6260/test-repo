@@ -11,14 +11,12 @@ MAGENTA='\033[1;35m'
 BOLD='\033[1m'
 NC='\033[0m'
 
-# ─── Проверка зависимостей ────────────────────────────────
-for cmd in curl jq; do
-    if ! command -v "$cmd" >/dev/null 2>&1; then
-        echo -e "${RED}Ошибка: утилита '$cmd' не установлена.${NC}" >&2
-        echo -e "${YELLOW}Установите: sudo apt install $cmd${NC}" >&2
-        exit 1
-    fi
-done
+# ─── Проверка зависимостей (только curl) ─────────────────
+if ! command -v curl >/dev/null 2>&1; then
+    echo -e "${RED}Ошибка: утилита 'curl' не установлена.${NC}" >&2
+    echo -e "${YELLOW}Установите: sudo apt install curl${NC}" >&2
+    exit 1
+fi
 
 # ─── Проверка аргумента ───────────────────────────────────
 if [[ $# -ne 1 ]]; then
@@ -31,12 +29,16 @@ REPO="$1"
 
 # ─── Запрос к GitHub API ──────────────────────────────────
 API_URL="https://api.github.com/repos/${REPO}"
-HTTP_CODE=$(curl -s -o /tmp/gh_resp.json -w "%{http_code}" \
+TMP_JSON=$(mktemp)
+trap 'rm -f "$TMP_JSON"' EXIT
+
+HTTP_CODE=$(curl -s -o "$TMP_JSON" -w "%{http_code}" \
     -H "Accept: application/vnd.github+json" \
+    -A "bash-github-analyzer" \
     "$API_URL")
 
 case "$HTTP_CODE" in
-    200) ;;  # OK
+    200) ;;
     404)
         echo -e "${RED}Ошибка: репозиторий '$REPO' не найден.${NC}" >&2
         exit 2
@@ -52,16 +54,49 @@ case "$HTTP_CODE" in
         ;;
 esac
 
-# ─── Извлечение данных ────────────────────────────────────
-NAME=$(jq -r '.full_name'            /tmp/gh_resp.json)
-STARS=$(jq -r '.stargazers_count'    /tmp/gh_resp.json)
-FORKS=$(jq -r '.forks_count'         /tmp/gh_resp.json)
-ISSUES=$(jq -r '.open_issues_count'  /tmp/gh_resp.json)
-AUTHOR=$(jq -r '.owner.login'        /tmp/gh_resp.json)
-PUSHED=$(jq -r '.pushed_at'          /tmp/gh_resp.json)
+# ─── Парсер JSON без jq ───────────────────────────────────
+# Достаёт значение по ключу верхнего уровня.
+# Работает для плоских полей вида "key": value или "key": "value".
+json_get() {
+    local key="$1"
+    # 1) убрать переводы строк, чтобы поле не разорвалось
+    # 2) найти "key":  и взять следующее значение до , или }
+    tr -d '\n' < "$TMP_JSON" \
+        | grep -o "\"${key}\"[[:space:]]*:[[:space:]]*\(\"[^\"]*\"\|[^,}]*\)" \
+        | head -n1 \
+        | sed -E "s/^\"${key}\"[[:space:]]*:[[:space:]]*//; s/^\"//; s/\"$//; s/[[:space:]]+$//"
+}
 
-# ─── Форматирование чисел с пробелами (182 347) ───────────
-fmt() { printf "%'d" "$1" 2>/dev/null || echo "$1"; }
+NAME=$(json_get "full_name")
+STARS=$(json_get "stargazers_count")
+FORKS=$(json_get "forks_count")
+ISSUES=$(json_get "open_issues_count")
+AUTHOR=$(json_get "owner")      # для вложенного .owner.login нужен отдельный проход
+PUSHED=$(json_get "pushed_at")
+
+# owner — вложенный объект, достаём login отдельно
+AUTHOR=$(tr -d '\n' < "$TMP_JSON" \
+    | grep -o '"owner"[[:space:]]*:[[:space:]]*{[^}]*}' \
+    | grep -o '"login"[[:space:]]*:[[:space:]]*"[^"]*"' \
+    | head -n1 \
+    | sed -E 's/.*"login"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/')
+
+# ─── Значения по умолчанию, если что-то не спарсилось ─────
+NAME=${NAME:-$REPO}
+STARS=${STARS:-0}
+FORKS=${FORKS:-0}
+ISSUES=${ISSUES:-0}
+AUTHOR=${AUTHOR:-unknown}
+
+# ─── Форматирование чисел с пробелами (182347 -> 182 347) ─
+fmt() {
+    local n="$1"
+    # убрать возможные нецифровые символы
+    n=$(printf '%s' "$n" | tr -dc '0-9')
+    [[ -z "$n" ]] && n=0
+    printf '%s' "$n" | sed -E ':a; s/([0-9])([0-9]{3})\b/\1 \2/; ta'
+}
+
 STARS_F=$(fmt "$STARS")
 FORKS_F=$(fmt "$FORKS")
 ISSUES_F=$(fmt "$ISSUES")
@@ -74,19 +109,27 @@ else
 fi
 
 # ─── «Свежесть» обновления ────────────────────────────────
+# date -d понимает ISO 8601 в GNU date (Linux/WSL/Git Bash обычно GNU)
 PUSH_TS=$(date -d "$PUSHED" +%s 2>/dev/null || echo 0)
 NOW_TS=$(date +%s)
-DIFF_H=$(( (NOW_TS - PUSH_TS) / 3600 ))
 
-if   (( DIFF_H < 24 ));   then ACTIVITY="Высокая";   ACTIVITY_COLOR="$GREEN"
-elif (( DIFF_H < 24*30 )); then ACTIVITY="Средняя";  ACTIVITY_COLOR="$YELLOW"
-else                           ACTIVITY="Низкая";   ACTIVITY_COLOR="$RED"
-fi
+if (( PUSH_TS == 0 )); then
+    ACTIVITY="Неизвестно"
+    ACTIVITY_COLOR="$YELLOW"
+    AGO="—"
+else
+    DIFF_H=$(( (NOW_TS - PUSH_TS) / 3600 ))
 
-if   (( DIFF_H < 1 ));    then AGO="только что"
-elif (( DIFF_H < 24 ));   then AGO="$DIFF_H ч. назад"
-elif (( DIFF_H < 24*30 )); then AGO="$(( DIFF_H / 24 )) дн. назад"
-else                           AGO="$(( DIFF_H / 24 / 30 )) мес. назад"
+    if   (( DIFF_H < 24 ));    then ACTIVITY="Высокая";  ACTIVITY_COLOR="$GREEN"
+    elif (( DIFF_H < 24*30 )); then ACTIVITY="Средняя";  ACTIVITY_COLOR="$YELLOW"
+    else                            ACTIVITY="Низкая";   ACTIVITY_COLOR="$RED"
+    fi
+
+    if   (( DIFF_H < 1 ));     then AGO="только что"
+    elif (( DIFF_H < 24 ));    then AGO="$DIFF_H ч. назад"
+    elif (( DIFF_H < 24*30 )); then AGO="$(( DIFF_H / 24 )) дн. назад"
+    else                            AGO="$(( DIFF_H / 24 / 30 )) мес. назад"
+    fi
 fi
 
 # ─── Вывод ────────────────────────────────────────────────
@@ -101,5 +144,3 @@ echo -e "${ISSUES_COLOR}🐛 Open Issues:${NC}  ${ISSUES_COLOR}${ISSUES_F}${NC} 
 echo -e "${CYAN}👤 Автор:${NC}        ${CYAN}${AUTHOR}${NC}"
 echo -e "${ACTIVITY_COLOR}📊 Активность:${NC}   ${ACTIVITY_COLOR}${ACTIVITY}${NC} (обновлён ${AGO})"
 echo
-
-rm -f /tmp/gh_resp.json

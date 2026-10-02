@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# Без pipefail — иначе SIGPIPE от head ломает скрипт
+set -eu
 
-GREEN='\033[1;32m'; CYAN='\033[1;36m'; NC='\033[0m'
+CYAN='\033[1;36m'; GREEN='\033[1;32m'; NC='\033[0m'
 
 length=8
 
-# Источник: буквы (A-Z, a-z), цифры и немного спецсимволов
-chars='A-Za-z0-9!@#$%^&*()_+'
-
-password=$(LC_ALL=C tr -dc "$chars" < /dev/urandom | head -c "$length")
+# Диапазоны БЕЗ кавычек + /dev/urandom
+password=$(LC_ALL=C tr -dc 'A-Za-z0-9!@#$%^&*()_+' < /dev/urandom | head -c "$length" || true)
 
 echo -e "${CYAN}Сгенерированный пароль (${length} символов):${NC}"
 echo -e "${GREEN}${password}${NC}"
