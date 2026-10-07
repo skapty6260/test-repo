@@ -1,2 +1,4 @@
 prettier.rc
 notes/.obsidian
+# Symlink for obsidian
+notes/assets
