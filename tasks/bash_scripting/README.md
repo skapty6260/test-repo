@@ -58,8 +58,8 @@ chmod +x *.sh
 
 ## Скриншоты работы скриптов
 
-![1-3.sh](../../assets/bash_scripts1.png "1-3.sh")
+![1-3.sh](/assets/bash_scripts1.png "1-3.sh")
 
-![5-7.sh](../../assets/bash_scripts2.png "5-7.sh")
+![5-7.sh](/assets/bash_scripts2.png "5-7.sh")
 
-![8.sh](../../assets/bash_scripts3.png "8.sh")
+![8.sh](/assets/bash_scripts3.png "8.sh")
