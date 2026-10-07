@@ -13,8 +13,8 @@
 
 ## Конспекты
 
-- [Основы редактирования текста](/markdown.md)
-- [Mermaid](/mermaid.md)
-- [Bash CLI](/bash_cli.md)
-- [Bash Script](/bash_script.md)
-- [Git](/Git.md)
+- [Основы редактирования текста](/notes/markdown.md)
+- [Mermaid](/notes/mermaid.md)
+- [Bash CLI](/notes/bash_cli.md)
+- [Bash Script](/notes/bash_script.md)
+- [Git](/notes/Git.md)
