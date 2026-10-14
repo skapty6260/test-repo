@@ -4,6 +4,7 @@
 
 ## Конспекты
 
+- [Статический сайт на github pages](/)
 - [Основы редактирования текста](/notes/markdown.md)
 - [Mermaid](/notes/mermaid.md)
 - [Bash CLI](/notes/bash_cli.md)
