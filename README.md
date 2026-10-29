@@ -6,7 +6,7 @@
 
 ## Конспекты
 
-- [Статический сайт на github pages](/)
+- [Статический сайт на github pages](https://github.com/skapty6260/site_page)
 - [Основы редактирования текста](/notes/markdown.md)
 - [Mermaid](/notes/mermaid.md)
 - [Bash CLI](/notes/bash_cli.md)
@@ -17,8 +17,8 @@
 ## Самостоятельные
 
 - [Task Bash](/tasks/bash_scripting/README.md)
-  ![Bash task demo](/assets/bash_tasks_demo.png)
+  ![Bash task demo|237](/assets/bash_tasks_demo.png)
 - [Task Mermaid](/tasks/task_mermaid.md)
-  ![Mermaid task demo](/assets/mermaid_task_demo.png)
+  ![Mermaid task demo|237](/assets/mermaid_task_demo.png)
 - [Task Game](/tasks/sf_chets/README.md)
-  ![Game task demo](/assets/game_task_demo.png)
+  ![Game task demo|234](/assets/game_task_demo.png)
