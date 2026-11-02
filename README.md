@@ -17,8 +17,6 @@
 ## Самостоятельные
 
 - [Task Bash](/tasks/bash_scripting/README.md)
-  ![Bash task demo|237](/assets/bash_tasks_demo.png)
 - [Task Mermaid](/tasks/task_mermaid.md)
-  ![Mermaid task demo|237](/assets/mermaid_task_demo.png)
 - [Task Game](/tasks/sf_chets/README.md)
-  ![Game task demo|234](/assets/game_task_demo.png)
+  
