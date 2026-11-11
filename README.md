@@ -15,9 +15,8 @@
 
 ## Самостоятельные
 
-- [Docker](Docker/README)
+- [Docker](/notes/Docker/README.md)
 - [Статический сайт на github pages](https://github.com/skapty6260/site_page)
 - [Task Bash](/tasks/bash_scripting/README.md)
 - [Task Mermaid](/tasks/task_mermaid.md)
 - [Task Game](/tasks/sf_chets/README.md)
-  
