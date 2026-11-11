@@ -1,8 +1,8 @@
 ## Apache
 
-![[Pasted image 20261111145739.png]]
+![CMD](/assets/Pasted%20image%2020261111145739.png)
 
-![[Pasted image 20261111145749.png]]
+![PREV](/assets/Pasted%20image%2020261111145749.png)
 
 > Никогда в разработке не используйте русские имена файлов и каталогов!
 
@@ -13,6 +13,7 @@
 Выполните все этапы работы с проектом по примеру с [Nginx](/content/Docker/ImageLibrary/Nginx.md)
 
 Получить образ, создать и запустить контейнер:
+
 ```shell
 docker run -d --name my-apache -p 8081:80 httpd
 ```
@@ -22,16 +23,19 @@ docker run -d --name my-apache -p 8081:80 httpd
 ### Редактирование веб-страницы
 
 Зайти в контейнер
+
 ```shell
 docker exec -it my-apache bash
 ```
 
 Установить текстовый редактор командной строки Micro:
+
 ```shell
 apt update && apt install -y micro
 ```
 
 Открыть файл `index.html` для редактирования содержимого
+
 ```shell
 micro /usr/local/apache2/htdocs/index.html
 ```
@@ -43,6 +47,7 @@ micro /usr/local/apache2/htdocs/index.html
 [Проверьте результат по адрес http://localhost:8081](http://localhost:8081)
 
 Выйти из контейнера:
+
 ```shell
 exit
 ```

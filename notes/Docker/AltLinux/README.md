@@ -1,6 +1,6 @@
 ## Alt Linux в Docker
 
-![[Pasted image 20261111145149.png]]
+![CMD](/assets/Pasted%20image%2020261111145149.png)
 
 Выполните все этапы работы с проектом по примеру с [Nginx](/content/Docker/ImageLibrary/Nginx.md)
 
@@ -13,26 +13,31 @@
 #### Использовать контейнер с Alt
 
 ##### Загрузить готовый образ Alt
+
 ```shell
 docker pull alt:sisyphus
 ```
 
 ##### Запустить и использовать
+
 ```shell
 docker run -ti --rm --name alt alt:sisyphus /bin/bash
 ```
 
 #### Установить приложение Fastfetch в контейнере
+
 ```shell
 apt-get update && apt-get install fastfetch
 ```
 
 #### Запустить Fastfetch
+
 ```shell
 fastfetch
 ```
 
 ##### Выйти из контейнера с Alt
+
 ```shell
 exit
 ```

@@ -1,8 +1,8 @@
 ## HTTP-сервер для раздачи файлов
 
-![[Pasted image 20261111150132.png]]
+![CMD](/assets/Pasted%20image%2020261111150132.png)
 
-![[Pasted image 20261111150148.png]]
+![PREV](/assets/Pasted%20image%2020261111150148.png)
 
 Выполните все этапы работы с проектом по примеру с [Nginx](/content/Docker/ImageLibrary/Nginx.md)
 
@@ -15,10 +15,11 @@
 > Создание проекта лучше начать с "чистого листа", предварительно остановив и удалив все другие контейнеры и образы!
 
 1. Создайте тестовый файл
-echo "Hello from HTTP server" > test.txt
+   echo "Hello from HTTP server" > test.txt
 2. Запустите простой HTTP сервер
 
 в **Windows Powershell**
+
 ```shell
 docker run -d `
   --name http-server `
@@ -30,6 +31,7 @@ docker run -d `
 > Если эта команда в Powershell не работает, то удалите из кода апострофы `
 
 в **Git-Bash/Linux/WSL 2.0/Mac**
+
 ```shell
 docker run -d \
   --name http-server \
@@ -39,6 +41,7 @@ docker run -d \
 ```
 
 3. Проверьте
+
 ```shell
 curl http://localhost:8082/test.txt
 ```
