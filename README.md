@@ -15,6 +15,7 @@
 
 ## Самостоятельные
 
+- [Docker](Docker/README)
 - [Статический сайт на github pages](https://github.com/skapty6260/site_page)
 - [Task Bash](/tasks/bash_scripting/README.md)
 - [Task Mermaid](/tasks/task_mermaid.md)
