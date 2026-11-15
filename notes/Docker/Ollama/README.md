@@ -8,13 +8,13 @@
 docker run -d -v ollama_data:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 ```
 
-![screen](/notes/assets/1.png)
+![screen](/assets/1.png)
 
 ```shell
 docker exec -it ollama ollama run phi4
 ```
 
-![screen](/notes/assets/2.png)
+![screen](/assets/2.png)
 
 выйти из командного режима нейросети:
 
@@ -53,7 +53,7 @@ docker run -d -p 8081:8080 \
 
 [Открыть чат в браузере](http://localhost:8081)
 
-![screen](/notes/assets/3.png)
+![screen](/assets/3.png)
 
 Загрузить модель, например `llama3.2:1b`
 

@@ -4,6 +4,7 @@
 
 ## Задания
 
+- [Ollama](/notes/Docker/Ollama/README.md)
 - [Adminer](/notes/Docker/Adminer/README.md)
 - [AltLinux](/notes/Docker/AltLinux/README.md)
 - [Apache](/notes/Docker/Apache/README.md)
