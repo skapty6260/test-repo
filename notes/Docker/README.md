@@ -4,7 +4,10 @@
 
 ## Задания
 
+- [Metasploitable2](/notes/Docker/Metasploitable2/README.md)
+- [LibreDB](/notes/Docker/LibreDB/README.md)
 - [Ollama](/notes/Docker/Ollama/README.md)
+- [FileServer](/notes/Docker/FileServer/README.md)
 - [Adminer](/notes/Docker/Adminer/README.md)
 - [AltLinux](/notes/Docker/AltLinux/README.md)
 - [Apache](/notes/Docker/Apache/README.md)
